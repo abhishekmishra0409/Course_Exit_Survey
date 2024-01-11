@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT =  5000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -83,6 +83,15 @@ app.post('/submit-feedback', async (req, res) => {
       console.error('Error saving data to MongoDB:', error);
       res.json({ error: 'Internal Server Error' });
     }
+  }
+});
+app.get('/get-all-feedback', async (req, res) => {
+  try {
+    const allFeedback = await Feedback.find();
+    res.json(allFeedback);
+  } catch (error) {
+    console.error('Error retrieving feedback data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
