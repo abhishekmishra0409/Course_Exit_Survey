@@ -186,14 +186,19 @@ const App = () => {
                             </select>
 
                             <label>Session:</label>
-                            <input
-                                type="text"
+                            <select
                                 name="session"
                                 value={formData.session}
                                 onChange={handleInputChange}
-                                placeholder={"yyyy-yyyy"}
                                 required
-                            />
+                            >
+                                <option value="">Select...</option>
+                                {getSessionOptions().map((session) => (
+                                    <option key={session} value={session}>
+                                        {session}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className='u-pic'>
                             picture
@@ -360,8 +365,8 @@ const getSubjectsForFeedback = (course, branch, semester) => {
         },
         'M.Tech': {
             'CS': {
-                1: ['M.Tech CS Subject 1', 'M.Tech CS Subject 2', 'M.Tech CS Subject 3', 'M.Tech CS Subject 4', 'M.Tech CS Subject 5'],
-                2: ['M.Tech CS Subject 6', 'M.Tech CS Subject 7', 'M.Tech CS Subject 8', 'M.Tech CS Subject 9', 'M.Tech CS Subject 10'],
+                1: ['Subject 1', 'Subject 2', 'Subject 3', 'Subject 4', 'Subject 5'],
+                2: ['Subject 6', 'Subject 7', 'Subject 8', 'Subject 9', 'Subject 10'],
                 3: ['M.Tech CS Subject 11', 'M.Tech CS Subject 12', 'M.Tech CS Subject 13', 'M.Tech CS Subject 14', 'M.Tech CS Subject 15'],
                 // Add subjects for other semesters
                 // ...
@@ -381,6 +386,18 @@ const getSubjectsForFeedback = (course, branch, semester) => {
     return subjectsMapping[course]?.[branch]?.[semester] || [];
 };
 
+const getSessionOptions = () => {
+    const startYear = 2015;
+    const endYear = 2035;
+    const options = [];
+
+    for (let year = startYear; year <= endYear; year++) {
+        const nextYear = year + 1;
+        options.push(`${year}-${nextYear}`);
+    }
+
+    return options;
+};
 
 const getQuestions = () => [...Array(3).keys()];
 

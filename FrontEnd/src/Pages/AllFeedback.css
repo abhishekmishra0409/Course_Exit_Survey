@@ -1,0 +1,110 @@
+/* AllFeedback.css */
+
+/* Container styles */
+div {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Feedback section styles */
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+/* Dropdown styles */
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+}
+
+/* Feedback details styles */
+h3 {
+    color: #333;
+}
+
+p {
+    margin: 5px 0;
+}
+
+/* Subject Feedback table styles */
+.column-table {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.column-header, .column-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.column-header {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.column-row {
+    background-color: #fff;
+}
+
+.column-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.column-row > div {
+    flex: 1;
+    text-align: center;
+}
+
+/* Horizontal line separator */
+hr {
+    border: 1px solid #ddd;
+    margin: 20px 0;
+}
+/* AllFeedback.css */
+
+/* ... (Previous CSS) */
+
+.subject-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.subject-table th,
+.subject-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.subject-table th {
+    background-color: #f2f2f2;
+}
+
+.subject-table td {
+    background-color: #fff;
+}
+
+.subject-table td span {
+    display: block;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+/* Additional styling for the "No subject feedback available" message */
+.subject-feedback-message {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+}
