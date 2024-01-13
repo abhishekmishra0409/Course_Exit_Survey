@@ -1,106 +1,83 @@
-div {
-    margin: 0 auto;
-}
-
-/* Feedback section styles */
-h2 {
-    color: #333;
-    text-align: center;
-}
-
-/* Dropdown styles */
-label {
-    display: block;
-    margin: 10px 0;
-}
-
-select {
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  body{
+    height: 100vh;
     width: 100%;
-    padding: 8px;
-    margin-bottom: 20px;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    background: rgba(227, 213, 192, 0.569);
 }
-
-/* Feedback details styles */
-h3 {
-    color: #333;
+.head{
+    text-align: center;
+    background-color: black;
+    color: aliceblue;
+    height: 3vw;
 }
-
-p {
-    margin: 5px 0;
+.selectiondiv{
+    /* border: 1px solid black; */
+    margin: 10px 0px;
 }
-
-/* Subject Feedback table styles */
-.column-table {
+.selectiondiv h4{
+    /* border: 1px solid black; */
+    margin: 10px 10px;
+    font-size: 1.6vw;
+}
+.selectiondiv div{
+    /* border: 1px solid black; */
+    margin: 10px 0px;
+}
+.selectiondiv label{
+    margin:10px;
+    font-size: 1.6vw;
+}
+.selectiondiv select{
+    width: 36%;
+    height: 1.9vw;
+    background: transparent;
+    padding: 2px 5px;
+    margin-left: 10px;
+    border-radius: 18px;
+    font-size: 1.1vw;
+}
+.totalstu{
+    /* border: 1px solid red; */
+    margin: 10px 0px;
+    padding: 10px 10px;
+    font-size: 1.7vw;
+}
+.totalstu span{
+    font-weight: 700;
+    font-size: 1.8vw;
+    color: rgb(9, 10, 10);
+}
+.overall{
+    border: 1px solid black;
+    text-align: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    margin-top: 20px;
 }
-
-.column-header, .column-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    border: 1px solid #ddd;
+.overall h4{
+    font-size: 1.5vw;
+    margin: 10px 0px;
 }
-
-.column-header {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.column-row {
-    background-color: #fff;
-}
-
-.column-row:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.column-row > div {
-    flex: 1;
+.o-tab{
+    padding: 1px 5px;
+    margin-bottom: 10px;
     text-align: center;
 }
-
-/* Horizontal line separator */
-hr {
-    border: 1px solid #ddd;
-    margin: 20px 0;
+.o-tab table td{
+    border: 1px solid black;
+    padding: 4px;
 }
-/* AllFeedback.css */
-
-/* ... (Previous CSS) */
-
-.subject-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.o-tab table th{
+    border: 1px solid black;
+    padding: 2px 12px;
+    height: 3vw;
 }
-
-.subject-table th,
-.subject-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-.subject-table th {
-    background-color: #f2f2f2;
-}
-
-.subject-table td {
-    background-color: #fff;
-}
-
-.subject-table td span {
-    display: block;
-    margin-bottom: 5px;
-    text-align: center;
-}
-
-/* Additional styling for the "No subject feedback available" message */
-.subject-feedback-message {
-    color: #666;
-    font-style: italic;
-    text-align: center;
-    margin-top: 10px;
+.o-tab table{
+    margin-bottom: 10px;
 }

@@ -1,0 +1,328 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  body{
+    height: 100vh;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  }
+  .nav{
+    background-color: #2e3f68;
+    /* background-color: #45a49f; */
+    width: 100%;
+    height: 8vw;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  
+  .clglogo{
+    /*width: 10%;*/
+    height: 100%;
+    display: flex;
+    align-items: center;
+    /*margin-left: 10px;*/
+  }
+  .clglogo img{
+    /*width: 100%;*/
+    height: 90%;
+    border-radius: 50%;
+    background-size: cover;
+  }
+  .c-name{
+    margin-right: 20px;
+    width: 50%;
+    /* border: 1px solid white; */
+    color: white;
+    padding: 8px 7px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .c-name h2{
+    margin: 5px 0px;
+    font-size: 2vw;
+  }
+  .c-name p{
+    font-size: 1.2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+  }
+  /* nav button */
+  .feedback-link{
+    width: 10vw;
+    height: 3vw;
+    border: 1px solid white;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  .feedback-link a{
+    text-decoration: none;
+    color: white;
+    font-weight:500 ;
+    transition: all ease-in-out 0.2s;
+    font-size: 1.2vw;
+  
+  }
+  .feedback-link:hover{
+    background-color: white;
+    box-shadow: 0 0 2px 2px grey;
+  }
+  .feedback-link:hover a{
+    color: black;
+    font-weight: 500;
+  }
+  /* ----main heading  */
+  .mainHead{
+
+    text-align: center;
+    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* background-color: #45a49f; */
+    background-color:#A7B1CB;
+    font-size: 2.5vw;
+    
+  }
+  
+  /* Middle div */
+  .mdiv{
+    /* border: 1px solid rgb(255, 0, 0);s */
+    padding: 40px 40px;
+  }
+  .upper{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 38vw;
+    /* border: 1px solid greenyellow; */
+  
+  }
+  
+  
+  /*----> start input box */
+  /* main div input box*/
+  
+  .first{
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+    height: 90%;
+    justify-content: center;
+    padding: 10px 40px;
+   margin-left:4% ;
+   /* margin-right: 4%; */
+  box-shadow: 0 0 10px 1px black;
+  background-color: #EBEAF3;
+    border-radius: 28px;
+  
+  }
+  .first h3{
+    font-size: 1.5vw;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .first input{
+    margin: 5px 0px;
+    padding: 5px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid black;
+    width: 70%;
+    outline: none;
+  }
+  .first:on input{
+    border-bottom: 2px solid #2e3f68;
+  }
+  .first label{
+    margin-top: 8px;
+    font-size: 1.2vw;
+    font-weight: 600;
+  }
+  .first select{
+    margin-top: 7px;
+    height: 2.4vw;
+    width: 70%;
+    background: none;
+    border-radius: 18px;
+    padding: 0px 0px;
+  }
+  
+  /*-------illustration on the right hand side ----------*/
+  .u-pic{
+    width: 45%;
+    
+  }
+  .u-pic img{
+    height:100%;
+    width: 100%;
+  }
+  
+  
+  
+  
+  
+  /* Bottom level div */
+  .botom{
+    border: 1px solid rgb(0, 0, 0);
+    margin-top: 50px;
+    display: flex;
+    width: 100%;
+    
+  }
+  .tableHead{
+    width: 100%;
+    height: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #443D78;
+  }
+  
+  .b-left{
+    height: 500px;
+    width: 45%;
+    border-right: 1px solid black;
+    height: auto;
+    margin-bottom: 3px;
+  }
+  /* .firstLi{
+    padding-top: 20px;
+  } */
+  .b-left ul {
+    margin-top: 3.3vw;
+    padding: 0px 3px;
+  }
+  .b-left ul li{
+    
+    list-style: numeric;
+    margin-left: 29px;
+    font-size: 1.3vw;
+    margin-top: 15px;
+  }
+  .b-right{
+    /* border: 1px solid rgb(140, 61, 15); */
+    width:100%;
+  }
+  .sem{
+    width: 100%;
+    
+    display: flex;
+    background-color:#443D78;
+    color: white;
+    height: 50px;
+    /* border: 1px solid red; */
+    align-items: center;
+    padding: 5px 5px;
+    justify-content: center;
+  }
+  .sem select{
+    width: 20%;
+    height: 1.9vw;
+    margin-left: 10px;
+    border-radius: 18px;
+    
+  }
+  .sem label{
+    font-size: 1.7vw;
+    font-weight: 600;
+  }
+  .sem select option{
+    background-color: white;
+  }
+  /*table work*/
+  .tab{
+    /* border: 1px solid blue; */
+    /* margin-top: -25px; */
+    padding: 1px 5px;
+  
+  }
+  .tab table td{
+    border: 1px solid black;
+    padding: 2px;
+  
+  }
+  .tab table td select{
+    background: none;
+    border-radius: 8px;
+    padding: 5px 23px;
+    margin: 2px 1px;
+  
+  }
+  
+  .tab table th{
+    border: 1px solid black;
+    padding: 2px 2px;
+    margin: 10px;
+    height: 3vw;
+  }
+  
+  .tab table{
+    margin-top: 10px;
+
+  }
+  .btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    align-items: center;
+  }
+  .btn button{
+    width: 15%;
+    height: 3.6vw;
+    border-radius: 28px;
+    background: #443D78;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .btn button:hover{
+    cursor: pointer;
+    background:#A7B1CB;
+    color: black;
+    font-weight: 600;
+  }
+  
+  /* Footer */
+  footer{
+    height: 8vw;
+    color: white;
+    background-color: #443D78;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+  
+  }
+  .names{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .names h2{
+    width: 12vw;
+    margin-right: 13px;
+    font-size: 1.5vw;
+    font-weight: 400;
+    border-right: 2px solid white;
+    font-family:Arial, Helvetica, sans-serif
+  }
+  
+  .ourNames{
+    text-align: center;
+    margin-left: 10px;
+    font-size: 1.6vw;
+    font-weight: 100;
+    font-family:cursive;
+  
+  }

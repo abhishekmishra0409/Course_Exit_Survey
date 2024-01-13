@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+
 const app = express();
 const PORT =  5000;
 
@@ -94,6 +95,29 @@ app.get('/get-all-feedback', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// allowed username and password
+const allowedUsername = 'adminaccess';
+const allowedPassword = 'admin@svce'; // replace with a secure password 
+
+// Login Endpoint
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check 
+    if (username === allowedUsername && password === allowedPassword) {
+      res.json({ message: 'Login successful' });
+    } else {
+      res.status(401).json({ message: 'Invalid username or password' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

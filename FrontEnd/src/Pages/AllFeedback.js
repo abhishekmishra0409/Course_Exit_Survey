@@ -169,7 +169,8 @@ const AllFeedback = () => {
     return (
         <>
             <div>
-                <h2>All Feedback</h2>
+                <h2 className='head'>All Feedback Result</h2>
+                <div className='selectiondiv'>
                 <div>
                     <label>Search by Course:</label>
                     <select
@@ -180,6 +181,20 @@ const AllFeedback = () => {
                         {courseOptions.map((course) => (
                             <option key={course} value={course}>
                                 {course}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label>Search by Session:</label>
+                    <select
+                        value={selectedSession}
+                        onChange={(e) => setSelectedSession(e.target.value)}
+                    >
+                        <option value="">All Sessions</option>
+                        {sessionOptions.map((session) => (
+                            <option key={session} value={session}>
+                                {session}
                             </option>
                         ))}
                     </select>
@@ -212,28 +227,18 @@ const AllFeedback = () => {
                         ))}
                     </select>
                 </div>
-                <div>
-                    <label>Search by Session:</label>
-                    <select
-                        value={selectedSession}
-                        onChange={(e) => setSelectedSession(e.target.value)}
-                    >
-                        <option value="">All Sessions</option>
-                        {sessionOptions.map((session) => (
-                            <option key={session} value={session}>
-                                {session}
-                            </option>
-                        ))}
-                    </select>
+
                 </div>
 
                 {filteredFeedback.length > 0 && selectedSession && selectedSemester && selectedBranch && selectedCourse &&(
                     <>
-                        <div>
-                            <p>Number of Students: {numberOfStudents}</p>
+                        <div className='totalstu'>
+                            <p>Number of Students Given Feedback : <span> {numberOfStudents} </span></p>
                         </div>
 
+                    <div className='overall'>
                         <h4>Overall Average Table</h4>
+                        <div className='o-tab'>
                         <table>
                             <thead>
                             <tr>
@@ -254,7 +259,9 @@ const AllFeedback = () => {
                             ))}
                             </tbody>
                         </table>
-                <div>
+                        </div>
+                        </div>
+                <div className='selectiondiv'>
                     <h4>Subject-wise Ratings Count</h4>
                     <label>Select Subject:</label>
                     <select
@@ -268,7 +275,7 @@ const AllFeedback = () => {
                             </option>
                         ))}
                     </select>
-
+                            <div className='o-tab'>
                     {selectedSubject && (
                         <table>
                             <thead>
@@ -290,13 +297,13 @@ const AllFeedback = () => {
                                 const highestRating = Object.keys(ratings).reduce((maxRating, rating) => {
                                     return Number(rating) > Number(maxRating) ? rating : maxRating;
                                 }, '1');
-                                
+
                                 // Calculate the percentage based on the highest rating count
                                 const percentage = (ratings[highestRating] / numberOfStudents) * 100 || 0;
 
                                 return (
                                     <tr key={question}>
-                                        <td>{question}</td>
+                                        <td>{`Question ${Number(question) + 1}`}</td>
                                         <td>{ratings['1'] || 0}</td>
                                         <td>{ratings['2'] || 0}</td>
                                         <td>{ratings['3'] || 0}</td>
@@ -309,7 +316,7 @@ const AllFeedback = () => {
                             </tbody>
                         </table>
                     )}
-
+</div>
                 </div>
                     </>
                  )}
