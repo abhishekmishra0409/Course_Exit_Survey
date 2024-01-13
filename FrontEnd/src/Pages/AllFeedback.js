@@ -119,7 +119,7 @@ const AllFeedback = () => {
 
     const overallAverages = subjectColumns.map((subject) => ({
         subject,
-        averages: Array.from({ length: 3 }, (_, questionIndex) =>
+        averages: Array.from({ length: 10 }, (_, questionIndex) =>
             calculateSubjectQuestionAverage(subject, questionIndex)
         ),
     }));
@@ -135,9 +135,12 @@ const AllFeedback = () => {
             questionCounts: {},
         };
 
-        // Filter feedback data based on the selected subject
+        // Filter feedback data based on the selected subject, session, and course
         const filteredFeedbackForSubject = allFeedback.filter((feedback) =>
-            selectedSubject ? feedback.subjects[selectedSubject] : true
+            selectedSubject &&
+            feedback.subjects[selectedSubject] &&
+            feedback.session === selectedSession &&
+            feedback.selectedCourse === selectedCourse
         );
 
         // Calculate ratings counts for each question
@@ -158,7 +161,8 @@ const AllFeedback = () => {
         });
 
         setSubjectRatingsCount(newSubjectRatingsCount);
-    }, [selectedSubject, allFeedback]);
+    }, [selectedSubject, allFeedback, selectedSession, selectedCourse]);
+
 
     return (
         <>
@@ -241,6 +245,14 @@ const AllFeedback = () => {
                                         <th>Question 1</th>
                                         <th>Question 2</th>
                                         <th>Question 3</th>
+                                        <th>Question 4</th>
+                                        <th>Question 5</th>
+                                        <th>Question 6</th>
+                                        <th>Question 7</th>
+                                        <th>Question 8</th>
+                                        <th>Question 9</th>
+                                        <th>Question 10</th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
