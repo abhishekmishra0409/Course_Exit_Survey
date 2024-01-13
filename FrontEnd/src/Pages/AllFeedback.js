@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AllFeedback.css';
+import {Link} from "react-router-dom";
 
 const AllFeedback = () => {
     const [allFeedback, setAllFeedback] = useState([]);
@@ -16,11 +17,6 @@ const AllFeedback = () => {
 
     const [selectedSubject, setSelectedSubject] = useState('');
     const [subjectRatingsCount, setSubjectRatingsCount] = useState({});
-
-    const [ratingsCount, setRatingsCount] = useState({
-        subjectCounts: {}, // Total number of students for each rating for each subject
-        questionCounts: {}, // Total number of students for each rating for each question
-    });
 
     const filteredFeedback = allFeedback.filter((feedback) =>
         (selectedCourse ? feedback.selectedCourse === selectedCourse : true) &&
@@ -93,7 +89,7 @@ const AllFeedback = () => {
                     });
                 });
 
-                setRatingsCount(newRatingsCount);
+                setSubjectRatingsCount(newRatingsCount);
             } catch (error) {
                 console.error('Error fetching feedback:', error);
             }
@@ -128,9 +124,7 @@ const AllFeedback = () => {
         ),
     }));
 
-    const calculatePercentage = (value, max) => {
-        return ((value / max) * 100).toFixed(2);
-    };
+
 
 
 
@@ -168,158 +162,158 @@ const AllFeedback = () => {
 
     return (
         <>
-            <div>
-                <h2 className='head'>All Feedback Result</h2>
+            <div className='feedback-container'>
+                <h2 className='head'>
+                    <Link to="/">All Feedback Result</Link>
+                </h2>
                 <div className='selectiondiv'>
-                <div>
-                    <label>Search by Course:</label>
-                    <select
-                        value={selectedCourse}
-                        onChange={(e) => setSelectedCourse(e.target.value)}
-                    >
-                        <option value="">All Courses</option>
-                        {courseOptions.map((course) => (
-                            <option key={course} value={course}>
-                                {course}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Search by Session:</label>
-                    <select
-                        value={selectedSession}
-                        onChange={(e) => setSelectedSession(e.target.value)}
-                    >
-                        <option value="">All Sessions</option>
-                        {sessionOptions.map((session) => (
-                            <option key={session} value={session}>
-                                {session}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Search by Branch:</label>
-                    <select
-                        value={selectedBranch}
-                        onChange={(e) => setSelectedBranch(e.target.value)}
-                    >
-                        <option value="">All Branches</option>
-                        {branchOptions.map((branch) => (
-                            <option key={branch} value={branch}>
-                                {branch}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Search by Semester:</label>
-                    <select
-                        value={selectedSemester}
-                        onChange={(e) => setSelectedSemester(e.target.value)}
-                    >
-                        <option value="">All Semesters</option>
-                        {semesterOptions.map((semester) => (
-                            <option key={semester} value={semester}>
-                                {semester}
-                            </option>
-                        ))}
-                    </select>
+                    <div>
+                        <label>Search by Course:</label>
+                        <select
+                            value={selectedCourse}
+                            onChange={(e) => setSelectedCourse(e.target.value)}
+                        >
+                            <option value="">All Courses</option>
+                            {courseOptions.map((course) => (
+                                <option key={course} value={course}>
+                                    {course}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Search by Session:</label>
+                        <select
+                            value={selectedSession}
+                            onChange={(e) => setSelectedSession(e.target.value)}
+                        >
+                            <option value="">All Sessions</option>
+                            {sessionOptions.map((session) => (
+                                <option key={session} value={session}>
+                                    {session}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Search by Branch:</label>
+                        <select
+                            value={selectedBranch}
+                            onChange={(e) => setSelectedBranch(e.target.value)}
+                        >
+                            <option value="">All Branches</option>
+                            {branchOptions.map((branch) => (
+                                <option key={branch} value={branch}>
+                                    {branch}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Search by Semester:</label>
+                        <select
+                            value={selectedSemester}
+                            onChange={(e) => setSelectedSemester(e.target.value)}
+                        >
+                            <option value="">All Semesters</option>
+                            {semesterOptions.map((semester) => (
+                                <option key={semester} value={semester}>
+                                    {semester}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                </div>
-
-                {filteredFeedback.length > 0 && selectedSession && selectedSemester && selectedBranch && selectedCourse &&(
+                {filteredFeedback.length > 0 && selectedSession && selectedSemester && selectedBranch && selectedCourse && (
                     <>
                         <div className='totalstu'>
-                            <p>Number of Students Given Feedback : <span> {numberOfStudents} </span></p>
+                            <p>Number of Students Given Feedback: <span>{numberOfStudents}</span></p>
                         </div>
 
-                    <div className='overall'>
-                        <h4>Overall Average Table</h4>
-                        <div className='o-tab'>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Subject</th>
-                                <th>Question 1</th>
-                                <th>Question 2</th>
-                                <th>Question 3</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {overallAverages.map(({ subject, averages }, subjectIndex) => (
-                                <tr key={subjectIndex}>
-                                    <td>{subject}</td>
-                                    {averages.map((average, questionIndex) => (
-                                        <td key={questionIndex}>{average}</td>
-                                    ))}
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                        </div>
-                        </div>
-                <div className='selectiondiv'>
-                    <h4>Subject-wise Ratings Count</h4>
-                    <label>Select Subject:</label>
-                    <select
-                        value={selectedSubject}
-                        onChange={(e) => setSelectedSubject(e.target.value)}
-                    >
-                        <option value="">Select Subject</option>
-                        {subjectColumns.map((subject) => (
-                            <option key={subject} value={subject}>
-                                {subject}
-                            </option>
-                        ))}
-                    </select>
+                        <div className='overall'>
+                            <h4>Overall Average Table</h4>
                             <div className='o-tab'>
-                    {selectedSubject && (
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Question</th>
-                                <th>Rating 1</th>
-                                <th>Rating 2</th>
-                                <th>Rating 3</th>
-                                <th>Rating 4</th>
-                                <th>Rating 5</th>
-                                <th>Percentage</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {Object.entries(subjectRatingsCount.questionCounts).map(([question, ratings]) => {
-                                const totalCount = ratings['1'] + ratings['2'] + ratings['3'] + ratings['4'] + ratings['5'];
-
-                                // Find the highest rating
-                                const highestRating = Object.keys(ratings).reduce((maxRating, rating) => {
-                                    return Number(rating) > Number(maxRating) ? rating : maxRating;
-                                }, '1');
-
-                                // Calculate the percentage based on the highest rating count
-                                const percentage = (ratings[highestRating] / numberOfStudents) * 100 || 0;
-
-                                return (
-                                    <tr key={question}>
-                                        <td>{`Question ${Number(question) + 1}`}</td>
-                                        <td>{ratings['1'] || 0}</td>
-                                        <td>{ratings['2'] || 0}</td>
-                                        <td>{ratings['3'] || 0}</td>
-                                        <td>{ratings['4'] || 0}</td>
-                                        <td>{ratings['5'] || 0}</td>
-                                        <td>{percentage.toFixed(2)}% at Rating : {highestRating}</td>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Question 1</th>
+                                        <th>Question 2</th>
+                                        <th>Question 3</th>
                                     </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    )}
-</div>
-                </div>
+                                    </thead>
+                                    <tbody>
+                                    {overallAverages.map(({ subject, averages }, subjectIndex) => (
+                                        <tr key={subjectIndex}>
+                                            <td>{subject}</td>
+                                            {averages.map((average, questionIndex) => (
+                                                <td key={questionIndex}>{average}</td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div className='selectiondiv'>
+                            <h4>Subject-wise Ratings Count</h4>
+                            <label>Select Subject:</label>
+                            <select
+                                value={selectedSubject}
+                                onChange={(e) => setSelectedSubject(e.target.value)}
+                            >
+                                <option value="">Select Subject</option>
+                                {subjectColumns.map((subject) => (
+                                    <option key={subject} value={subject}>
+                                        {subject}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className='o-tab'>
+                                {selectedSubject && (
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Rating 1</th>
+                                            <th>Rating 2</th>
+                                            <th>Rating 3</th>
+                                            <th>Rating 4</th>
+                                            <th>Rating 5</th>
+                                            <th>Percentage</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {Object.entries(subjectRatingsCount.questionCounts).map(([question, ratings]) => {
+
+                                            // Find the highest rating
+                                            const highestRating = Object.keys(ratings).reduce((maxRating, rating) => {
+                                                return Number(rating) > Number(maxRating) ? rating : maxRating;
+                                            }, '1');
+
+                                            // Calculate the percentage based on the highest rating count
+                                            const percentage = (ratings[highestRating] / numberOfStudents) * 100 || 0;
+
+                                            return (
+                                                <tr key={question}>
+                                                    <td>{`Question ${Number(question) + 1}`}</td>
+                                                    <td>{ratings['1'] || 0}</td>
+                                                    <td>{ratings['2'] || 0}</td>
+                                                    <td>{ratings['3'] || 0}</td>
+                                                    <td>{ratings['4'] || 0}</td>
+                                                    <td>{ratings['5'] || 0}</td>
+                                                    <td>{percentage.toFixed(2)}% at Rating: {highestRating}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                        </tbody>
+                                    </table>
+                                )}
+                            </div>
+                        </div>
                     </>
-                 )}
+                )}
             </div>
         </>
     );
