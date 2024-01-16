@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AllFeedback.css';
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
+
+
 
 const AllFeedback = () => {
     const [allFeedback, setAllFeedback] = useState([]);
@@ -18,11 +20,12 @@ const AllFeedback = () => {
     const [selectedSubject, setSelectedSubject] = useState('');
     const [subjectRatingsCount, setSubjectRatingsCount] = useState({});
 
-    const filteredFeedback = allFeedback.filter((feedback) =>
-        (selectedCourse ? feedback.selectedCourse === selectedCourse : true) &&
-        (selectedBranch ? feedback.selectedBranch === selectedBranch : true) &&
-        (selectedSemester ? feedback.selectedSemester === selectedSemester : true) &&
-        (selectedSession ? feedback.session === selectedSession : true)
+    const filteredFeedback = allFeedback.filter(
+        (feedback) =>
+            (selectedCourse ? feedback.selectedCourse === selectedCourse : true) &&
+            (selectedBranch ? feedback.selectedBranch === selectedBranch : true) &&
+            (selectedSemester ? feedback.selectedSemester === selectedSemester : true) &&
+            (selectedSession ? feedback.session === selectedSession : true)
     );
 
     useEffect(() => {
@@ -43,11 +46,12 @@ const AllFeedback = () => {
                 setSessionOptions(uniqueSessions);
 
                 // Calculate and set the number of students based on the selected criteria
-                const filteredStudents = response.data.filter((feedback) =>
-                    (selectedCourse ? feedback.selectedCourse === selectedCourse : true) &&
-                    (selectedBranch ? feedback.selectedBranch === selectedBranch : true) &&
-                    (selectedSemester ? feedback.selectedSemester === selectedSemester : true) &&
-                    (selectedSession ? feedback.session === selectedSession : true)
+                const filteredStudents = response.data.filter(
+                    (feedback) =>
+                        (selectedCourse ? feedback.selectedCourse === selectedCourse : true) &&
+                        (selectedBranch ? feedback.selectedBranch === selectedBranch : true) &&
+                        (selectedSemester ? feedback.selectedSemester === selectedSemester : true) &&
+                        (selectedSession ? feedback.session === selectedSession : true)
                 );
                 setNumberOfStudents(filteredStudents.length);
 
@@ -98,13 +102,13 @@ const AllFeedback = () => {
         fetchData();
     }, [selectedCourse, selectedBranch, selectedSemester, selectedSession]);
 
+
     const calculateAverageRating = (ratings) => {
         const ratingValues = Object.values(ratings).map(Number);
         const sum = ratingValues.reduce((acc, rating) => acc + rating, 0);
         const average = sum / ratingValues.length;
         return isNaN(average) ? 'N/A' : average.toFixed(2);
     };
-
 
     const calculateSubjectQuestionAverage = (subject, questionIndex) => {
         const questionRatings = filteredFeedback.map((feedback) =>
@@ -113,21 +117,12 @@ const AllFeedback = () => {
         return calculateAverageRating(questionRatings);
     };
 
-    const subjectColumns = Array.from(
-        new Set(filteredFeedback.flatMap((feedback) => Object.keys(feedback.subjects)))
-    );
+    const subjectColumns = Array.from(new Set(filteredFeedback.flatMap((feedback) => Object.keys(feedback.subjects))));
 
     const overallAverages = subjectColumns.map((subject) => ({
         subject,
-        averages: Array.from({ length: 10 }, (_, questionIndex) =>
-            calculateSubjectQuestionAverage(subject, questionIndex)
-        ),
+        averages: Array.from({ length: 10 }, (_, questionIndex) => calculateSubjectQuestionAverage(subject, questionIndex)),
     }));
-
-
-
-
-
 
     useEffect(() => {
         // Calculate ratings counts for the selected subject
@@ -136,11 +131,12 @@ const AllFeedback = () => {
         };
 
         // Filter feedback data based on the selected subject, session, and course
-        const filteredFeedbackForSubject = allFeedback.filter((feedback) =>
-            selectedSubject &&
-            feedback.subjects[selectedSubject] &&
-            feedback.session === selectedSession &&
-            feedback.selectedCourse === selectedCourse
+        const filteredFeedbackForSubject = allFeedback.filter(
+            (feedback) =>
+                selectedSubject &&
+                feedback.subjects[selectedSubject] &&
+                feedback.session === selectedSession &&
+                feedback.selectedCourse === selectedCourse
         );
 
         // Calculate ratings counts for each question
@@ -166,17 +162,14 @@ const AllFeedback = () => {
 
     return (
         <>
-            <div className='feedback-container'>
-                <h2 className='head'>
+            <div className="feedback-container" >
+                <h2 className="head">
                     <Link to="/">All Feedback Result</Link>
                 </h2>
-                <div className='selectiondiv'>
+                <div className="selectiondiv">
                     <div>
                         <label>Search by Course:</label>
-                        <select
-                            value={selectedCourse}
-                            onChange={(e) => setSelectedCourse(e.target.value)}
-                        >
+                        <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
                             <option value="">All Courses</option>
                             {courseOptions.map((course) => (
                                 <option key={course} value={course}>
@@ -187,10 +180,7 @@ const AllFeedback = () => {
                     </div>
                     <div>
                         <label>Search by Session:</label>
-                        <select
-                            value={selectedSession}
-                            onChange={(e) => setSelectedSession(e.target.value)}
-                        >
+                        <select value={selectedSession} onChange={(e) => setSelectedSession(e.target.value)}>
                             <option value="">All Sessions</option>
                             {sessionOptions.map((session) => (
                                 <option key={session} value={session}>
@@ -201,10 +191,7 @@ const AllFeedback = () => {
                     </div>
                     <div>
                         <label>Search by Branch:</label>
-                        <select
-                            value={selectedBranch}
-                            onChange={(e) => setSelectedBranch(e.target.value)}
-                        >
+                        <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)}>
                             <option value="">All Branches</option>
                             {branchOptions.map((branch) => (
                                 <option key={branch} value={branch}>
@@ -215,10 +202,7 @@ const AllFeedback = () => {
                     </div>
                     <div>
                         <label>Search by Semester:</label>
-                        <select
-                            value={selectedSemester}
-                            onChange={(e) => setSelectedSemester(e.target.value)}
-                        >
+                        <select value={selectedSemester} onChange={(e) => setSelectedSemester(e.target.value)}>
                             <option value="">All Semesters</option>
                             {semesterOptions.map((semester) => (
                                 <option key={semester} value={semester}>
@@ -231,13 +215,15 @@ const AllFeedback = () => {
 
                 {filteredFeedback.length > 0 && selectedSession && selectedSemester && selectedBranch && selectedCourse && (
                     <>
-                        <div className='totalstu'>
-                            <p>Number of Students Given Feedback: <span>{numberOfStudents}</span></p>
+                        <div className="totalstu">
+                            <p>
+                                Number of Students Given Feedback: <span>{numberOfStudents}</span>
+                            </p>
                         </div>
 
-                        <div className='overall'>
+                        <div className="overall">
                             <h4>Overall Average Table</h4>
-                            <div className='o-tab'>
+                            <div className="o-tab">
                                 <table>
                                     <thead>
                                     <tr>
@@ -252,7 +238,6 @@ const AllFeedback = () => {
                                         <th>Question 8</th>
                                         <th>Question 9</th>
                                         <th>Question 10</th>
-
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -268,13 +253,10 @@ const AllFeedback = () => {
                                 </table>
                             </div>
                         </div>
-                        <div className='selectiondiv'>
+                        <div className="selectiondiv">
                             <h4>Subject-wise Ratings Count</h4>
                             <label>Select Subject:</label>
-                            <select
-                                value={selectedSubject}
-                                onChange={(e) => setSelectedSubject(e.target.value)}
-                            >
+                            <select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
                                 <option value="">Select Subject</option>
                                 {subjectColumns.map((subject) => (
                                     <option key={subject} value={subject}>
@@ -282,7 +264,7 @@ const AllFeedback = () => {
                                     </option>
                                 ))}
                             </select>
-                            <div className='o-tab'>
+                            <div className="o-tab">
                                 {selectedSubject && (
                                     <table>
                                         <thead>
@@ -298,27 +280,27 @@ const AllFeedback = () => {
                                         </thead>
                                         <tbody>
                                         {Object.entries(subjectRatingsCount.questionCounts).map(([question, ratings]) => {
+                                            const ratingsArray = Object.entries(ratings).map(([rating, count]) => ({ rating, count }));
+                                            ratingsArray.sort((a, b) => b.count - a.count); // Sort by count in descending order
+                                            const highestRating = ratingsArray[0].rating;
 
-                                            // Find the highest rating
-                                            const highestRating = Object.keys(ratings).reduce((maxRating, rating) => {
-                                                return Number(rating) > Number(maxRating) ? rating : maxRating;
-                                            }, '1');
-
-                                            // Calculate the percentage based on the highest rating count
-                                            const percentage = (ratings[highestRating] / numberOfStudents) * 100 || 0;
+                                            const highestRatingCount = ratings[highestRating] || 0;
+                                            const percentage = (highestRatingCount / numberOfStudents) * 100 || 0;
 
                                             return (
                                                 <tr key={question}>
                                                     <td>{`Question ${Number(question) + 1}`}</td>
-                                                    <td>{ratings['1'] || 0}</td>
-                                                    <td>{ratings['2'] || 0}</td>
-                                                    <td>{ratings['3'] || 0}</td>
-                                                    <td>{ratings['4'] || 0}</td>
-                                                    <td>{ratings['5'] || 0}</td>
+                                                    {['1', '2', '3', '4', '5'].map((rating) => (
+                                                        <td key={rating}>{ratings[rating] || 0}</td>
+                                                    ))}
                                                     <td>{percentage.toFixed(2)}% at Rating: {highestRating}</td>
                                                 </tr>
                                             );
                                         })}
+
+
+
+
                                         </tbody>
                                     </table>
                                 )}
@@ -331,4 +313,4 @@ const AllFeedback = () => {
     );
 };
 
-export default AllFeedback;
+export default AllFeedback;

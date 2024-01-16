@@ -56,6 +56,7 @@ const App = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (
             !formData.name ||
             !formData.rollNo ||
@@ -63,11 +64,16 @@ const App = () => {
             !formData.branch ||
             !formData.session ||
             !formData.semester ||
-            Object.keys(formData.subjects).length === 0
+            getQuestions().some((question) =>
+                getSubjectsForFeedback(formData.course, formData.branch, formData.semester).some(
+                    (subject) => !formData.subjects[subject]?.[question]
+                )
+            )
         ) {
             alert('Please fill in all the required fields and provide feedback for all subjects.');
             return;
         }
+
         try {
             const response = await axios.post('http://localhost:5000/submit-feedback', formData);
 
@@ -83,17 +89,14 @@ const App = () => {
                 });
             };
 
-            // Check if the response contains an error message
             if (response.data.error) {
-                alert(`Error: Enrollment number has already do it`)
-                // Handle the error, display an error message, etc.
+                alert(`Error: Enrollment number has already been used.`);
             } else {
-                // Example: Display a success message to the user
-                alert('Registration successful!');
+                alert('Feedback Submitted successfully!');
                 handleClearForm();
             }
         } catch (error) {
-            console.error('Error submitting feedback:', error);
+            console.error('Error in submitting feedback:', error);
         }
     };
 
@@ -112,7 +115,7 @@ const App = () => {
                 </div>
             </div>
 
-                    <h1 className='mainHead'>Course Exit Survey</h1>
+            <h1 className='mainHead'>Course Exit Survey</h1>
             <div className='mdiv'>
                 <div>
 
@@ -129,7 +132,7 @@ const App = () => {
                                 required
                             />
 
-                            <label>Roll No:</label>
+                            <label>Enrollment No:</label>
                             <input
                                 type="text"
                                 name="rollNo"
@@ -214,30 +217,30 @@ const App = () => {
                                 <option value="2032-33">2032-33</option>
                                 <option value="2033-34">2033-34</option>
                                 <option value="2034-35">2034-35</option>
-                                
+
 
                             </select>
                         </div>
                         <div className='u-pic'>
-                             <img src='/images/5211204.jpg' alt=''/>
+                            <img src='/images/5211204.jpg' alt=''/>
                         </div>
 
                     </div>
                     <div className='botom'>
-                    
+
                         <div className='b-left'>
-                        
-                           <h2 className='tableHead'>Questions</h2>
+
+                            <h2 className='tableHead'>Questions</h2>
                             <ul>
-                                <li className='firstLi'>Question Asked for Rating here</li>
-                                <li>Question Asked for Rating here let assume question is bigger than </li>
-                                <li>Question Asked for Rating here</li>
-                                <li>Question Asked for Rating here let assume question is bigger than</li>
-                                <li>Question Asked for Rating here  let assume question is bigger than</li>
-                                <li>Question Asked for Rating here</li>
-                                <li>Question Asked for Rating here  let assume question is bigger than</li>
-                                <li>Question Asked for Rating here</li>
-                                <li>Question Asked for Rating here</li>
+                                <li className='firstLi'>Course Outcomes were clearly identified</li>
+                                <li>Relevance of the textbook to this course </li>
+                                <li>Were the lecture clear/well organized and presented at a reasonable pace</li>
+                                <li>Dit the problem worked out in the classroom/Online class help you to understand how to solve question on your own</li>
+                                <li>Are the assignment/lab experiment procedure clearly explained</li>
+                                <li>The learning resourse in the course help you to achive the course outcomes (Lecture notes,PPTs,Online meterial etc.)</li>
+                                <li>The Quality of teaching in the course help you to achive the course outcomes</li>
+                                <li>Are you motivated to achive the course outcomes.(Having the desire or drive to learn, to complete task and to willing strive for goals)</li>
+                                <li>Your overall satisfaction about the course</li>
                                 <li>Question Asked for Rating here</li>
                             </ul>
                         </div>
@@ -246,7 +249,7 @@ const App = () => {
                             <div className='sem'>
 
                                 <div><label className='tableHead semester'>Semester:</label></div>
-                               
+
                                 <select
                                     name="semester"
                                     value={formData.semester}
@@ -287,7 +290,7 @@ const App = () => {
                             <div className='tab'>
                                 {formData.course && formData.branch && formData.semester && (
                                     <>
-                                    
+
                                         <table>
                                             <thead>
                                             <tr>
