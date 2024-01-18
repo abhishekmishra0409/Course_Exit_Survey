@@ -35,8 +35,14 @@ const AllFeedback = () => {
             (selectedSession ? feedback.session === selectedSession : true)
     );
 
+    const resetPage = () => {
+        setSelectedSubject('');
+        setSubjectRatingsCount({});
+        setSelectedSubjectData({ questionCounts: {} });
+    };
 
     useEffect(() => {
+
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/get-all-feedback');
@@ -109,6 +115,11 @@ const AllFeedback = () => {
         };
 
         fetchData();
+
+        return () => {
+            resetPage();
+        };
+
     }, [selectedCourse, selectedBranch, selectedSemester, selectedSession]);
 
 
