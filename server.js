@@ -6,12 +6,13 @@ const cors = require('cors');
 
 const app = express();
 const PORT =  5000;
+// const HOST='172.16.89.96'
 
 app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/Final-feedbackdb', {
+mongoose.connect(`mongodb://0.0.0.0:27017/Final-feedbackdb`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -119,6 +120,10 @@ app.post('/login', async (req, res) => {
 
 
 
+// app.listen(PORT,HOST, () => {
+//   console.log(`Server is running on port http://${HOST}:${PORT}`);
+// });
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port at${PORT}`);
 });

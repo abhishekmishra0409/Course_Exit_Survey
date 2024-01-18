@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from "react-router-dom";
@@ -59,7 +57,7 @@ const App = () => {
 
         if (
             !formData.name ||
-            !formData.rollNo ||
+            (formData.rollNo && formData.rollNo.length !== 12) ||
             !formData.course ||
             !formData.branch ||
             !formData.session ||
@@ -70,7 +68,11 @@ const App = () => {
                 )
             )
         ) {
-            alert('Please fill in all the required fields and provide feedback for all subjects.');
+            if (formData.rollNo && formData.rollNo.length !== 12) {
+                alert('Enrollment number should be exactly 12 characters.');
+            } else {
+                alert('Please fill in all the required fields and provide feedback for all subjects.');
+            }
             return;
         }
 
@@ -90,7 +92,7 @@ const App = () => {
             };
 
             if (response.data.error) {
-                alert(`Error: Enrollment number has already been used.`);
+                alert('Error: Enrollment number has already been used.');
             } else {
                 alert('Feedback Submitted successfully!');
                 handleClearForm();
@@ -99,6 +101,14 @@ const App = () => {
             console.error('Error in submitting feedback:', error);
         }
     };
+
+    const getFilteredSubjects = () => {
+        if (formData.course && formData.branch && formData.semester) {
+            return getSubjectsForFeedback(formData.course, formData.branch, formData.semester);
+        }
+        return [];
+    };
+
 
     return (
         <>
@@ -150,7 +160,7 @@ const App = () => {
                             >
                                 <option value="">Select...</option>
                                 <option value="B.Tech">B.Tech</option>
-                                <option value="M.Tech">M.Tech</option>
+                                <option value="M.Tech/ME">M.Tech/ME</option>
                                 <option value="MBA">MBA</option>
 
                             </select>
@@ -170,21 +180,30 @@ const App = () => {
                                         <option value="IT">Information Technology</option>
                                         <option value="ME">Mechenical Engineering</option>
                                         <option value="CE">Civil Engineering</option>
+                                        <option value="EX">Electrical and Electronics </option>
                                     </>
                                 )}
-                                {formData.course === 'M.Tech' && (
+
+
+
+                                {formData.course === 'M.Tech/ME' && (
                                     <>
-                                        <option value="CS">Computer Science and Engineering</option>
-                                        <option value="ECE">Electronics and Communication Engineering</option>
-                                        <option value="IT">Information Technology</option>
-                                        <option value="ME">Mechenical Engineering</option>
-                                        <option value="CE">Civil Engineering</option>
+                                        <option value="MCSE">Computer Science and Engineering</option>
+                                        <option value="PowerSystems">PowerSystems</option>
+                                        <option value="VLSI">VLSI</option>
+                                        <option value="MD">MD</option>
                                     </>
                                 )}
+
                                 {formData.course === 'MBA' && (
                                     <>
-                                        <option value="Finance">Finance</option>
-                                        <option value="Marketing">Marketing</option>
+                                        <option value="1-year">1st Year</option>
+                                        <option value="Marketing/Finance">Marketing/Finance</option>
+                                        <option value="Marketing/HR">Marketing/HR</option>
+                                        <option value="Marketing/IT">Marketing/IT</option>
+                                        <option value="Finance/IT">Finance/IT</option>
+                                        <option value="Finance/HR">Finance/HR</option>
+                                        <option value="HR/IT">HR/IT</option>
                                     </>
                                 )}
                             </select>
@@ -197,9 +216,6 @@ const App = () => {
                                 required
                             >
                                 <option value="">Select...</option>
-                                <option value="2015-16">2015-16</option>
-                                <option value="2016-17">2016-17</option>
-                                <option value="2017-18">2017-18</option>
                                 <option value="2018-19">2018-19</option>
                                 <option value="2019-20">2019-20</option>
                                 <option value="2020-21">2020-21</option>
@@ -217,8 +233,11 @@ const App = () => {
                                 <option value="2032-33">2032-33</option>
                                 <option value="2033-34">2033-34</option>
                                 <option value="2034-35">2034-35</option>
-
-
+                                <option value="2035-36">2034-35</option>
+                                <option value="2036-37">2034-35</option>
+                                <option value="2037-38">2034-35</option>
+                                <option value="2038-39">2034-35</option>
+                                <option value="2039-40">2034-35</option>
                             </select>
                         </div>
                         <div className='u-pic'>
@@ -241,7 +260,6 @@ const App = () => {
                                 <li>The Quality of teaching in the course help you to achive the course outcomes</li>
                                 <li>Are you motivated to achive the course outcomes.(Having the desire or drive to learn, to complete task and to willing strive for goals)</li>
                                 <li>Your overall satisfaction about the course</li>
-                                <li>Question Asked for Rating here</li>
                             </ul>
                         </div>
 
@@ -269,7 +287,51 @@ const App = () => {
                                             <option>8</option>
                                         </>
                                     )}
-                                    {formData.course === 'MBA' && (
+                                    {formData.course === 'MBA' && formData.branch === '1-year' && (
+                                        <>
+                                            <option value="1">Semester 1</option>
+                                            <option value="2">Semester 2</option>
+                                        </>
+                                    )}
+                                    {formData.course === 'MBA' && formData.branch === 'Marketing/Finance'&&(
+                                        <>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                        </>
+                                    )}
+                                    {formData.course === 'MBA' && formData.branch === 'Marketing/HR'&&(
+                                        <>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                        </>
+                                    )}
+
+                                    {formData.course === 'MBA' && formData.branch ===  'Marketing/IT'&&(
+                                        <>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                        </>
+                                    )}
+                                    {formData.course === 'MBA' && formData.branch === 'Finance/IT'&&(
+                                        <>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                        </>
+                                    )}
+                                    {formData.course === 'MBA' && formData.branch === 'Finance/HR'&&(
+                                        <>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                        </>
+                                    )}
+                                    {formData.course === 'MBA' && formData.branch === 'HR/IT'&&(
+                                        <>
+                                            <option value="3">Semester 3</option>
+                                            <option value="4">Semester 4</option>
+                                        </>
+                                    )}
+
+                                    {formData.course === 'M.Tech/ME' && (
                                         <>
                                             <option value="1">Semester 1</option>
                                             <option value="2">Semester 2</option>
@@ -277,56 +339,42 @@ const App = () => {
                                             <option value="4">Semester 4</option>
                                         </>
                                     )}
-                                    {formData.course === 'M.Tech' && (
-                                        <>
-                                            <option value="1">Semester 1</option>
-                                            <option value="2">Semester 2</option>
-                                            <option value="3">Semester 3</option>
-                                            <option value="4">Semester 4</option>
-                                        </>
-                                    )}
+
                                 </select>
                             </div>
                             <div className='tab'>
                                 {formData.course && formData.branch && formData.semester && (
                                     <>
-
                                         <table>
                                             <thead>
                                             <tr>
-                                                {/* <th>Questions / Subjects</th> */}
-                                                {getSubjectsForFeedback(formData.course, formData.branch, formData.semester).map(
-                                                    (subject) => (
-                                                        <th key={subject}>{subject}</th>
-                                                    )
-                                                )}
+                                                {getFilteredSubjects().map((subject) => (
+                                                    <th key={subject}>{subject}</th>
+                                                ))}
                                             </tr>
                                             </thead>
                                             <tbody>
                                             {getQuestions().map((question) => (
                                                 <tr key={question}>
-                                                    {/* <td>Question {question + 1}</td> */}
-                                                    {getSubjectsForFeedback(formData.course, formData.branch, formData.semester).map(
-                                                        (subject) => (
-                                                            <td key={subject}>
-                                                                <select
-                                                                    className='tableSelection'
-                                                                    value={formData.subjects[subject]?.[question] || ''}
-                                                                    onChange={(e) =>
-                                                                        handleSubjectRatingChange(subject, question, e.target.value)
-                                                                    }
-                                                                    required
-                                                                >
-                                                                    <option value="">--Rate--</option>
-                                                                    <option value="5">5 (Excellent)</option>
-                                                                    <option value="4">4 (Very Good)</option>
-                                                                    <option value="3">3 (Good)</option>
-                                                                    <option value="2">2 (Fair)</option>
-                                                                    <option value="1">1 (Poor)</option>
-                                                                </select>
-                                                            </td>
-                                                        )
-                                                    )}
+                                                    {getFilteredSubjects().map((subject) => (
+                                                        <td key={subject}>
+                                                            <select
+                                                                className='tableSelection'
+                                                                value={formData.subjects[subject]?.[question] || ''}
+                                                                onChange={(e) =>
+                                                                    handleSubjectRatingChange(subject, question, e.target.value)
+                                                                }
+                                                                required
+                                                            >
+                                                                <option value="">--Rate--</option>
+                                                                <option value="5">5 (Excellent)</option>
+                                                                <option value="4">4 (Very Good)</option>
+                                                                <option value="3">3 (Good)</option>
+                                                                <option value="2">2 (Fair)</option>
+                                                                <option value="1">1 (Poor)</option>
+                                                            </select>
+                                                        </td>
+                                                    ))}
                                                 </tr>
                                             ))}
                                             </tbody>
@@ -334,8 +382,6 @@ const App = () => {
                                     </>
                                 )}
                             </div>
-
-
                         </div>
 
                     </div>
@@ -372,10 +418,10 @@ const getSubjectsForFeedback = (course, branch, semester) => {
                 2: ['BT-201', 'BT-202', 'BT-203', 'BT-204', 'BT-205'],
                 3: ['ES-301', 'CS-302', 'Cs-303', 'CS-304', 'CS-305'],
                 4: ['BT-401', 'CS-402', 'CS-403', 'CS-404', 'CS-405'],
-                5: ['CS-501', 'CS-502', 'CS-503', 'CS-504', 'CS-505'],
-                6: ['CS-601', 'CS-602', 'CS-603', 'CS-604', 'CS-605'],
-                7: ['CS-701', 'CS-702', 'CS-703', 'CS-704', 'CS-705'],
-                8: ['CS-801', 'CS-802', 'CS-803', 'CS-804', 'CS-805'],
+                5: ['CS-501', 'CS-502', 'CS-503', 'CS-504'],
+                6: ['CS-601', 'CS-602', 'CS-603', 'CS-604'],
+                7: ['CS-701', 'CS-702', 'CS-703'],
+                8: ['CS-801', 'CS-802', 'CS-803'],
 
                 // Add subjects for other semesters
                 // ...
@@ -385,20 +431,20 @@ const getSubjectsForFeedback = (course, branch, semester) => {
                 2:['BT-201', 'BT-202', 'BT-203', 'BT-204', 'BT-205'],
                 3:['ES-301', 'IT-302', 'IT-303', 'IT-304', 'IT-305'],
                 4:['BT-401', 'IT-402', 'IT-403', 'IT-404', 'IT-405'],
-                5:['IT-501', 'IT-502', 'IT-503', 'IT-504', 'IT-505'],
-                6:['IT-601', 'IT-602', 'IT-603', 'IT-604', 'IT-605'],
-                7:['IT-701', 'IT-702', 'IT-703', 'IT-704', 'IT-705'],
-                8:['IT-801', 'IT-802', 'IT-803', 'IT-804', 'IT-805'],
+                5:['IT-501', 'IT-502', 'IT-503', 'IT-504'],
+                6:['IT-601', 'IT-602', 'IT-603', 'IT-604'],
+                7:['IT-701', 'IT-702', 'IT-703'],
+                8:['IT-801', 'IT-802', 'IT-803'],
             },
             'ECE': {
                 1: ['BT-101', 'BT-102', 'BT-103', 'BT-104', 'BT-105'],
                 2: ['BT-201', 'BT-202', 'BT-203', 'BT-204', 'BT-205'],
                 3: ['BT-301', 'EC-302', 'EC-303', 'EC-304', 'EC-305'],
                 4: ['ES-401', 'EC-402', 'EC-403', 'EC-404', 'EC-405'],
-                5: ['EC-501', 'EC-502', 'EC-503', 'EC-504', 'EC-505'],
-                6: ['EC-601', 'EC-602', 'EC-603', 'EC-604', 'EC-605'],
-                7: ['EC-701', 'EC-702', 'EC-703', 'EC-704', 'EC-705'],
-                8: ['EC-801', 'EC-802', 'EC-803', 'EC-804', 'EC-805'],
+                5: ['EC-501', 'EC-502', 'EC-503', 'EC-504'],
+                6: ['EC-601', 'EC-602', 'EC-603', 'EC-604'],
+                7: ['EC-701', 'EC-702', 'EC-703'],
+                8: ['EC-801', 'EC-802', 'EC-803'],
                 // Add subjects for other semesters
                 // ...
             },
@@ -407,10 +453,10 @@ const getSubjectsForFeedback = (course, branch, semester) => {
                 2: ['BT-201', 'BT-202', 'BT-203', 'BT-204', 'BT-205'],
                 3: ['CE-301', 'CE-302', 'CE-303', 'CE-304', 'CE-305'],
                 4: ['CE-401', 'CE-402', 'CE-403', 'CE-404', 'CE-405'],
-                5: ['CE-501', 'CE-502', 'CE-503', 'CE-504', 'CE-505'],
-                6: ['CE-601', 'CE-602', 'CE-603', 'CE-604', 'CE-605'],
-                7: ['CE-701', 'CE-702', 'CE-703', 'CE-704', 'CE-705'],
-                8: ['CE-801', 'CE-802', 'CE-803', 'CE-804', 'CE-805'],
+                5: ['CE-501', 'CE-502', 'CE-503', 'CE-504'],
+                6: ['CE-601', 'CE-602', 'CE-603', 'CE-604'],
+                7: ['CE-701', 'CE-702', 'CE-703'],
+                8: ['CE-801', 'CE-802', 'CE-803'],
                 // Add subjects for other semesters
                 // ...
             },
@@ -419,10 +465,10 @@ const getSubjectsForFeedback = (course, branch, semester) => {
                 2: ['BT-201', 'BT-202', 'BT-203', 'BT-204', 'BT-205'],
                 3: ['ME-301', 'ME-302', 'ME-303', 'ME-304', 'ME-305'],
                 4: ['ME-401', 'ME-402', 'ME-403', 'ME-404', 'ME-405'],
-                5: ['ME-501', 'ME-502', 'ME-503', 'ME-504', 'ME-505'],
-                6: ['ME-601', 'ME-602', 'ME-603', 'ME-604', 'ME-605'],
-                7: ['ME-701', 'ME-702', 'ME-703', 'ME-704', 'ME-705'],
-                8: ['ME-801', 'ME-802', 'ME-803', 'ME-804', 'ME-805'],
+                5: ['ME-501', 'ME-502', 'ME-503', 'ME-504'],
+                6: ['ME-601', 'ME-602', 'ME-603', 'ME-604'],
+                7: ['ME-701', 'ME-702', 'ME-703'],
+                8: ['ME-801', 'ME-802', 'ME-803'],
                 // Add subjects for other semesters
                 // ...
             },
@@ -431,56 +477,92 @@ const getSubjectsForFeedback = (course, branch, semester) => {
                 2: ['BT-201', 'BT-202', 'BT-203', 'BT-204', 'BT-205'],
                 3: ['EX-301', 'EX-302', 'EX-303', 'EX-304', 'EX-305'],
                 4: ['EX-401', 'EX-402', 'EX-403', 'EX-404', 'EX-405'],
-                5: ['EX-501', 'EX-502', 'EX-503', 'EX-504', 'EX-505'],
-                6: ['EX-601', 'EX-602', 'EX-603', 'EX-604', 'EX-605'],
-                7: ['EX-701', 'EX-702', 'EX-703', 'EX-704', 'EX-705'],
-                8: ['EX-801', 'EX-802', 'EX-803', 'EX-804', 'EX-805'],
+                5: ['EX-501', 'EX-502', 'EX-503', 'EX-504'],
+                6: ['EX-601', 'EX-602', 'EX-603', 'EX-604'],
+                7: ['EX-701', 'EX-702', 'EX-703'],
+                8: ['EX-801', 'EX-802', 'EX-803'],
                 // Add subjects for other semesters
                 // ...
             },
             // Add other branches...
         },
         'MBA': {
-            'Finance': {
-                1: ['Finance Subject 1', 'Finance Subject 2', 'Finance Subject 3', 'Finance Subject 4', 'Finance Subject 5'],
-                2: ['Finance Subject 6', 'Finance Subject 7', 'Finance Subject 8', 'Finance Subject 9', 'Finance Subject 10'],
-                3: ['Finance Subject 11', 'Finance Subject 12', 'Finance Subject 13', 'Finance Subject 14', 'Finance Subject 15'],
+            '1-year': {
+                1: ['FT101C' ,'FT102C' ,'FT103C' ,'FT1' ,'FT105C' ,'FT106C' ,'FT107C' ,'FT108C'],
+                2: ['FT201C' ,'FT202C' ,'FT203C' ,'FT204C' ,'FT205C' ,'FT206C' ,'FT207C' ,'FT208C' ]
                 // Add subjects for other semesters
                 // ...
             },
-            'Marketing': {
-                1: ['Marketing Subject 1', 'Marketing Subject 2', 'Marketing Subject 3', 'Marketing Subject 4', 'Marketing Subject 5'],
-                2: ['Marketing Subject 6', 'Marketing Subject 7', 'Marketing Subject 8', 'Marketing Subject 9', 'Marketing Subject 10'],
-                3: ['Marketing Subject 11', 'Marketing Subject 12', 'Marketing Subject 13', 'Marketing Subject 14', 'Marketing Subject 15'],
-                // Add subjects for other semesters
-                // ...
+            'Marketing/Finance': {
+                3: ['FT301C' , 'FT302C' ,'FT303M','FT304M','FT305M','FT303F','FT304F','FT305F'],
+                4: ['FT401C' , 'FT402C' ,'FT403M','FT404M','FT405M','FT403F','FT404F','FT405F']
             },
-            // Add other branches...
-        },
-        'M.Tech': {
-            'CS': {
-                1: ['M.Tech CS Subject 1', 'M.Tech CS Subject 2', 'M.Tech CS Subject 3', 'M.Tech CS Subject 4', 'M.Tech CS Subject 5'],
-                2: ['M.Tech CS Subject 6', 'M.Tech CS Subject 7', 'M.Tech CS Subject 8', 'M.Tech CS Subject 9', 'M.Tech CS Subject 10'],
-                3: ['M.Tech CS Subject 11', 'M.Tech CS Subject 12', 'M.Tech CS Subject 13', 'M.Tech CS Subject 14', 'M.Tech CS Subject 15'],
-                // Add subjects for other semesters
-                // ...
+            'Marketing/HR': {
+                3: ['FT301C' , 'FT302C' ,'FT303M','FT304M','FT305M','FT303H','FT304H','FT305H'],
+                4: ['FT401C' , 'FT402C' ,'FT403M','FT404M','FT405M','FT403H','FT404H','FT405H']
             },
-            'ECE': {
-                1: ['M.Tech ECE Subject 1', 'M.Tech ECE Subject 2', 'M.Tech ECE Subject 3', 'M.Tech ECE Subject 4', 'M.Tech ECE Subject 5'],
-                2: ['M.Tech ECE Subject 6', 'M.Tech ECE Subject 7', 'M.Tech ECE Subject 8', 'M.Tech ECE Subject 9', 'M.Tech ECE Subject 10'],
-                3: ['M.Tech ECE Subject 11', 'M.Tech ECE Subject 12', 'M.Tech ECE Subject 13', 'M.Tech ECE Subject 14', 'M.Tech ECE Subject 15'],
-                // Add subjects for other semesters
-                // ...
+            'Marketing/IT': {
+                3: ['FT301C' , 'FT302C' ,'FT303M','FT304M','FT305M','FT303I','FT304I','FT305I'],
+                4: ['FT401C' , 'FT402C' ,'FT403M','FT404M','FT405M','FT403I','FT404I','FT405I']
             },
-            // Add other branches...
-        },
-        // Add other courses...
-    };
 
-    return subjectsMapping[course]?.[branch]?.[semester] || [];
+            'Finance/IT':{
+                3: ['FT301C' , 'FT302C' ,'FT303F','FT304F','FT305F','FT303I','FT304I','FT305I'],
+                4: ['FT401C' , 'FT402C' ,'FT403F','FT404F','FT405F','FT403I','FT404I','FT405I']
+            },
+            'Finance/HR':{
+                3: ['FT301C' , 'FT302C' ,'FT303F','FT304F','FT305F' ,'FT303H','FT304H','FT305H'],
+                4: ['FT401C' , 'FT402C' ,'FT403F','FT404F','FT405F','FT403H','FT404H','FT405H']
+            },
+            'HR/IT':{
+                3: ['FT301C' , 'FT302C' ,'FT303H','FT304H','FT305H','FT303I','FT304I','FT305I'],
+                4: ['FT401C' , 'FT402C' ,'FT403H','FT404H','FT405H','FT403I','FT404I','FT405I'],
+            },
+
+            // Add other branches...
+        },
+        'M.Tech/ME': {
+            'MCSE': {
+                1: ['MCSE101', 'MCSE102', 'MCSE103', 'MCSE104', 'MCSE105'],
+                2:['MCSE201', 'MCSE202', 'MCSE203', 'MCSE204', 'MCSE205'],
+                3:['MCSE301', 'MCSE302'],
+                4:['MCSE401']
+                // Add subjects for other semesters
+                // ...
+            },
+            'PowerSystems':{
+                1:['MEPS101', 'MEPS102', 'MEPS103', 'MEPS104', 'MEPS105'],
+                2:['MEPS201', 'MEPS202', 'MEPS203', 'MEPS204', 'MEPS205'],
+                3:['MEPS301', 'MEPS302'],
+                4:['MEPS401']
+            },
+            'VLSI':{
+                1: ['MEVD-101', 'MEVD-102', 'MEVD-103', ' MEVD-104', 'MEVD-105'],
+                2: ['MEVD-201', 'MEVD-202', 'MEVD-203', ' MEVD-204', 'MEVD-205'],
+                3: ['MEVD-301', 'MEVD-302'],
+                4: ['MEVD-401'],
+
+            },
+            'MD':{
+                1:['MMPD101', 'MMPD102','MMPD103','MMPD104','MMPD105'],
+                2:['MMPD201', 'MMPD202','MMPD203','MMPD204' ,'MMPD205'],
+                3:['MMPD301','MMPD302'],
+                4:['MMPD401']},
+
+            'M.Eng': {
+
+            },
+            // Add other branches...
+        }
+        // Add other courses...
+    }
+
+    const subjects = subjectsMapping[course]?.[branch]?.[semester] || [];
+
+    return subjects;
 };
 
 
-const getQuestions = () => [...Array(10).keys()];
+const getQuestions = () => [...Array(9).keys()];
 
-export default App;
+export default App;

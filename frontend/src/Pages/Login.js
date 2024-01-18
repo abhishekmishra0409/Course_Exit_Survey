@@ -15,7 +15,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/login', { username, password });
       console.log(response.data.message);
       // Handle successful login
-      navigate('/all-feedback');
+      navigate('/all-feedback/0822IT041120');
     } catch (error) {
       console.error(error.response.data.message);
       // Handle login error

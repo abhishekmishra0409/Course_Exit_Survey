@@ -4,6 +4,9 @@ import './AllFeedback.css';
 import { Link } from 'react-router-dom';
 
 
+import ReactApexChart from 'react-apexcharts';
+
+let newRatingsCount = { questionCounts: {} };
 
 const AllFeedback = () => {
     const [allFeedback, setAllFeedback] = useState([]);
@@ -19,6 +22,10 @@ const AllFeedback = () => {
 
     const [selectedSubject, setSelectedSubject] = useState('');
     const [subjectRatingsCount, setSubjectRatingsCount] = useState({});
+    const [selectedSubjectData, setSelectedSubjectData] = useState({
+        questionCounts: {},
+    });
+
 
     const filteredFeedback = allFeedback.filter(
         (feedback) =>
@@ -27,6 +34,7 @@ const AllFeedback = () => {
             (selectedSemester ? feedback.selectedSemester === selectedSemester : true) &&
             (selectedSession ? feedback.session === selectedSession : true)
     );
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,10 +64,11 @@ const AllFeedback = () => {
                 setNumberOfStudents(filteredStudents.length);
 
                 // Calculate ratings counts for each subject and question
-                const newRatingsCount = {
+                newRatingsCount = {
                     subjectCounts: {},
                     questionCounts: {},
                 };
+
 
                 filteredStudents.forEach((feedback) => {
                     Object.entries(feedback.subjects).forEach(([subject, ratings]) => {
@@ -121,14 +130,18 @@ const AllFeedback = () => {
 
     const overallAverages = subjectColumns.map((subject) => ({
         subject,
-        averages: Array.from({ length: 10 }, (_, questionIndex) => calculateSubjectQuestionAverage(subject, questionIndex)),
+        averages: Array.from({ length: 9 }, (_, questionIndex) => calculateSubjectQuestionAverage(subject, questionIndex)),
     }));
+
+    // console.log(overallAverages)
 
     useEffect(() => {
         // Calculate ratings counts for the selected subject
         const newSubjectRatingsCount = {
             questionCounts: {},
         };
+        const newSubjectData = [];
+
 
         // Filter feedback data based on the selected subject, session, and course
         const filteredFeedbackForSubject = allFeedback.filter(
@@ -136,7 +149,8 @@ const AllFeedback = () => {
                 selectedSubject &&
                 feedback.subjects[selectedSubject] &&
                 feedback.session === selectedSession &&
-                feedback.selectedCourse === selectedCourse
+                feedback.selectedCourse === selectedCourse &&
+                feedback.selectedSemester === selectedSemester
         );
 
         // Calculate ratings counts for each question
@@ -157,63 +171,98 @@ const AllFeedback = () => {
         });
 
         setSubjectRatingsCount(newSubjectRatingsCount);
+
+
+        const questionCount = 8; // Assuming there are 10 questions
+        for (let i = 0; i <= questionCount; i++) {
+            const questionRatings = filteredFeedbackForSubject.map((feedback) =>
+                feedback.subjects[selectedSubject] ? feedback.subjects[selectedSubject][i.toString()] : null
+            );
+
+            const averageRating = calculateAverageRating(questionRatings);
+            newSubjectData.push({
+                question: `Question ${i + 1}`,
+                averageRating: isNaN(averageRating) ? 0 : parseFloat(averageRating),
+            });
+
+        }
+
+        setSelectedSubjectData(newSubjectData);
     }, [selectedSubject, allFeedback, selectedSession, selectedCourse]);
 
 
     return (
         <>
             <div className="feedback-container" >
+                <div className='nav-2'>
+                    <div className='clglogo-2'>
+                        <img src="/images/SVCE%20Logo.jpg" alt="" />
+                    </div>
+                    <div className='c-name-2'>
+                        <div>
+                            <h2>Swami Vivekanand Groups of Institutions</h2>
+                            <p>Engineering | Pharmacy | Management | Diploma</p>
+                        </div>
+                    </div>
+
+                </div>
                 <h2 className="head">
-                    <Link to="/">All Feedback Result</Link>
+                    <Link to="/">Course Exit Survey Result</Link>
                 </h2>
                 <div className="selectiondiv">
-                    <div>
-                        <label>Search by Course:</label>
-                        <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
-                            <option value="">All Courses</option>
-                            {courseOptions.map((course) => (
-                                <option key={course} value={course}>
-                                    {course}
-                                </option>
-                            ))}
-                        </select>
+                    <div className='ss-1'>
+                        <div>
+                            <label>Select Course :</label>
+                            <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
+                                <option value="">All Courses</option>
+                                {courseOptions.map((course) => (
+                                    <option key={course} value={course}>
+                                        {course}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Select Session :</label>
+                            <select value={selectedSession} onChange={(e) => setSelectedSession(e.target.value)}>
+                                <option value="">All Sessions</option>
+                                {sessionOptions.map((session) => (
+                                    <option key={session} value={session}>
+                                        {session}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label>Search by Session:</label>
-                        <select value={selectedSession} onChange={(e) => setSelectedSession(e.target.value)}>
-                            <option value="">All Sessions</option>
-                            {sessionOptions.map((session) => (
-                                <option key={session} value={session}>
-                                    {session}
-                                </option>
-                            ))}
-                        </select>
+                    <div className='ss-1'>
+                        <div>
+                            <label>Select Branch :</label>
+                            <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)}>
+                                <option value="">All Branches</option>
+                                {branchOptions.map((branch) => (
+                                    <option key={branch} value={branch}>
+                                        {branch}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Select Semester :</label>
+                            <select value={selectedSemester} onChange={(e) => setSelectedSemester(e.target.value)}>
+                                <option value="">All Semesters</option>
+                                {semesterOptions.map((semester) => (
+                                    <option key={semester} value={semester}>
+                                        {semester}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label>Search by Branch:</label>
-                        <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)}>
-                            <option value="">All Branches</option>
-                            {branchOptions.map((branch) => (
-                                <option key={branch} value={branch}>
-                                    {branch}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <label>Search by Semester:</label>
-                        <select value={selectedSemester} onChange={(e) => setSelectedSemester(e.target.value)}>
-                            <option value="">All Semesters</option>
-                            {semesterOptions.map((semester) => (
-                                <option key={semester} value={semester}>
-                                    {semester}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+
+
                 </div>
 
-                {filteredFeedback.length > 0 && selectedSession && selectedSemester && selectedBranch && selectedCourse && (
+                {filteredFeedback.length > 0 && selectedSession && selectedSemester && selectedBranch && selectedCourse &&(
                     <>
                         <div className="totalstu">
                             <p>
@@ -222,7 +271,7 @@ const AllFeedback = () => {
                         </div>
 
                         <div className="overall">
-                            <h4>Overall Average Table</h4>
+                            <h4>Overall Average Table Out Of 5</h4>
                             <div className="o-tab">
                                 <table>
                                     <thead>
@@ -237,7 +286,6 @@ const AllFeedback = () => {
                                         <th>Question 7</th>
                                         <th>Question 8</th>
                                         <th>Question 9</th>
-                                        <th>Question 10</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -253,57 +301,109 @@ const AllFeedback = () => {
                                 </table>
                             </div>
                         </div>
-                        <div className="selectiondiv">
-                            <h4>Subject-wise Ratings Count</h4>
-                            <label>Select Subject:</label>
-                            <select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
-                                <option value="">Select Subject</option>
-                                {subjectColumns.map((subject) => (
-                                    <option key={subject} value={subject}>
-                                        {subject}
-                                    </option>
-                                ))}
-                            </select>
+                        <div className="selectiondiv-1">
+                            <div className='s-1-s'>
+                                <h4>Subject-wise Ratings Count</h4>
+                                <label>Select Subject:</label>
+                                <select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
+                                    <option value="">Select Subject</option>
+                                    {subjectColumns.map((subject) => (
+                                        <option key={subject} value={subject}>
+                                            {subject}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
                             <div className="o-tab">
                                 {selectedSubject && (
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Question</th>
-                                            <th>Rating 1</th>
-                                            <th>Rating 2</th>
-                                            <th>Rating 3</th>
-                                            <th>Rating 4</th>
-                                            <th>Rating 5</th>
-                                            <th>Percentage</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {Object.entries(subjectRatingsCount.questionCounts).map(([question, ratings]) => {
-                                            const ratingsArray = Object.entries(ratings).map(([rating, count]) => ({ rating, count }));
-                                            ratingsArray.sort((a, b) => b.count - a.count); // Sort by count in descending order
-                                            const highestRating = ratingsArray[0].rating;
+                                    <div>
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Question</th>
+                                                <th>Rating 1</th>
+                                                <th>Rating 2</th>
+                                                <th>Rating 3</th>
+                                                <th>Rating 4</th>
+                                                <th>Rating 5</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {Object.entries(subjectRatingsCount.questionCounts).map(([question, ratings]) => {
+                                                const ratingsArray = Object.entries(ratings).map(([rating, count]) => ({ rating, count }));
+                                                ratingsArray.sort((a, b) => b.count - a.count); // Sort by count in descending order
 
-                                            const highestRatingCount = ratings[highestRating] || 0;
-                                            const percentage = (highestRatingCount / numberOfStudents) * 100 || 0;
+                                                return (
+                                                    <tr key={question}>
+                                                        <td>{`Question ${Number(question) + 1}`}</td>
+                                                        {['1', '2', '3', '4', '5'].map((rating) => (
+                                                            <td key={rating}>{ratings[rating] || 0}</td>
+                                                        ))}
+                                                    </tr>
+                                                );
+                                            })}
 
-                                            return (
-                                                <tr key={question}>
-                                                    <td>{`Question ${Number(question) + 1}`}</td>
-                                                    {['1', '2', '3', '4', '5'].map((rating) => (
-                                                        <td key={rating}>{ratings[rating] || 0}</td>
-                                                    ))}
-                                                    <td>{percentage.toFixed(2)}% at Rating: {highestRating}</td>
-                                                </tr>
-                                            );
-                                        })}
-
-
-
-
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                        <div className="bar-chart">
+                                            {/* <h4>Bar Chart for {selectedSubject}</h4> */}
+                                            <ReactApexChart
+                                                options={{
+                                                    chart: {
+                                                        type: 'bar',
+                                                        stacked: true,
+                                                        // stackType: "100%"
+                                                    },
+                                                    plotOptions: {
+                                                        bar: {
+                                                            horizontal: false,
+                                                            columnWidth: '45%',
+                                                            distributed: true,
+                                                        },
+                                                    },
+                                                    dataLabels: {
+                                                        enabled: true,
+                                                        formatter: function (val) {
+                                                            return (val * 20).toFixed(2) + '%';
+                                                        },
+                                                    },
+                                                    xaxis: {
+                                                        categories: selectedSubjectData.map((item) => item.question),
+                                                    },
+                                                    yaxis: {
+                                                        title: {
+                                                            text: 'Percentage',
+                                                        },
+                                                        // max: 100,
+                                                        labels: {
+                                                            formatter: function (val) {
+                                                                return (val).toFixed(2) * 20;
+                                                            },
+                                                        },
+                                                    },
+                                                    title: {
+                                                        text: 'Bar Chart for ' + selectedSubject,
+                                                        align: 'center',
+                                                        style: {
+                                                            fontSize: '16px',
+                                                        },
+                                                    }
+                                                }}
+                                                series={[
+                                                    {
+                                                        name: 'Percentage',
+                                                        data: selectedSubjectData.map((item) => item.averageRating),
+                                                    },
+                                                ]}
+                                                type="bar"
+                                                height={350}
+                                                width={1000}
+                                            />
+                                        </div>
+                                    </div>
                                 )}
+
                             </div>
                         </div>
                     </>
