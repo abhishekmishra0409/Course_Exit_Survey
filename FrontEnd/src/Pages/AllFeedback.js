@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AllFeedback.css';
 import { Link } from 'react-router-dom';
-
-
 import ReactApexChart from 'react-apexcharts';
-
 let newRatingsCount = { questionCounts: {} };
 
 const AllFeedback = () => {
@@ -19,7 +16,6 @@ const AllFeedback = () => {
     const [semesterOptions, setSemesterOptions] = useState([]);
     const [sessionOptions, setSessionOptions] = useState([]);
     const [numberOfStudents, setNumberOfStudents] = useState(0);
-
     const [selectedSubject, setSelectedSubject] = useState('');
     const [subjectRatingsCount, setSubjectRatingsCount] = useState({});
     const [selectedSubjectData, setSelectedSubjectData] = useState({
@@ -45,7 +41,7 @@ const AllFeedback = () => {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/get-all-feedback');
+                const response = await axios.get('http://172.16.89.96:5000/get-all-feedback');
                 setAllFeedback(response.data);
 
                 // Extract unique options for dropdowns
@@ -199,7 +195,7 @@ const AllFeedback = () => {
         }
 
         setSelectedSubjectData(newSubjectData);
-    }, [selectedSubject, allFeedback, selectedSession, selectedCourse]);
+    }, [selectedSubject, allFeedback, selectedSession, selectedCourse, selectedSemester]);
 
 
     return (
@@ -386,7 +382,7 @@ const AllFeedback = () => {
                                                         title: {
                                                             text: 'Percentage',
                                                         },
-                                                        // max: 100,
+                                                        max: '100%',
                                                         labels: {
                                                             formatter: function (val) {
                                                                 return (val).toFixed(2) * 20;
@@ -408,8 +404,8 @@ const AllFeedback = () => {
                                                     },
                                                 ]}
                                                 type="bar"
-                                                height={350}
-                                                width={1000}
+                                                height={'400vh'}
+                                                width={'100%'}
                                             />
                                         </div>
                                     </div>

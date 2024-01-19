@@ -10,7 +10,7 @@ function App() {
                 <Routes>
                     <Route exact index element = {<SubmitFeedback/>}  />
                     <Route exact path='/' element = {<SubmitFeedback/>}  />
-                    <Route exact path='/all-feedback/0822IT041120' element = {<AllFeedback/>} />
+                    <Route exact path='/fhg5471hg651hj/all-feedback' element = {<AllFeedback/>} />
                     <Route exact path='/login' element = {<Login/>} />
                 </Routes>
             </BrowserRouter>
