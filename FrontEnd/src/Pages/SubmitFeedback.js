@@ -43,6 +43,7 @@ const App = () => {
             ...prevData,
             branch: '',
             semester: '',
+            session: '',
             subjects: {},
         }));
 
@@ -57,6 +58,7 @@ const App = () => {
         return(resetPage())
 
     }, [formData.semester]);
+
     const handleSubjectRatingChange = (subject, question, rating) => {
         setFormData((prevData) => ({
             ...prevData,
