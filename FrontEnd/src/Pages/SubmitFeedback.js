@@ -111,12 +111,9 @@ const App = () => {
                 });
             };
 
-            if (response.data.error) {
-                alert('Error: Enrollment number has already been used.');
-            } else {
+
                 alert('Feedback Submitted successfully!');
                 handleClearForm();
-            }
         } catch (error) {
             console.error('Error in submitting feedback:', error);
         }

@@ -33,7 +33,6 @@ const feedbackSchema = new mongoose.Schema({
   enrollment: {
     type: String,
     required: true,
-    unique: true,
   },
   selectedCourse: {
     type: String,
@@ -78,13 +77,8 @@ app.post('/submit-feedback', async (req, res) => {
     console.log('Feedback saved:', savedFeedback);
     res.json({ message: 'Data received and saved successfully.' });
   } catch (error) {
-    if (error.code === 11000 && error.keyPattern && error.keyPattern.enrollment) {
-      // Enrollment field is not unique
-      res.json({ error: 'Enrollment must be unique.' });
-    } else {
       console.error('Error saving data to MongoDB:', error);
       res.json({ error: 'Internal Server Error' });
-    }
   }
 });
 app.get('/get-all-feedback', async (req, res) => {
