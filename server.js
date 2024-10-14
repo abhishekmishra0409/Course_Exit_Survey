@@ -8,14 +8,12 @@ const app = express();
 const PORT =  5000;
 const HOST='172.16.89.96'
 
+
 app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection
-mongoose.connect(`mongodb://0.0.0.0:27017/Final-feedbackdb`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGODB_URL );
 
 const db = mongoose.connection;
 
@@ -65,7 +63,7 @@ app.post('/submit-feedback', async (req, res) => {
   try {
     const newFeedback = new Feedback({
       name: req.body.name,
-      enrollment: req.body.rollNo, // Assuming rollNo is the enrollment field
+      enrollment: req.body.rollNo,
       selectedCourse: req.body.course,
       selectedBranch: req.body.branch,
       selectedSemester: req.body.semester,
@@ -92,8 +90,8 @@ app.get('/get-all-feedback', async (req, res) => {
 });
 
 // allowed username and password
-const allowedUsername = 'adminaccess';
-const allowedPassword = 'admin@svce'; // replace with a secure password 
+const allowedUsername = 'admin';
+const allowedPassword = '123456';
 
 // Login Endpoint
 app.post('/login', async (req, res) => {
@@ -112,12 +110,12 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// app.listen(PORT,HOST, () => {
+//   console.log(`Server is running on port http://${HOST}:${PORT}`);
+// });
 
-
-app.listen(PORT,HOST, () => {
-  console.log(`Server is running on port http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port at${PORT}`);
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port at${PORT}`);
-// });
+// exports.api = functions.https.onRequest(app)

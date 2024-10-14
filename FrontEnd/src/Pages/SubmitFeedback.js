@@ -97,7 +97,8 @@ const App = () => {
         }
 
         try {
-            const response = await axios.post('http://172.16.89.96:5000/submit-feedback', formData);
+            // const response = await axios.post('http://172.16.89.96:5000/submit-feedback', formData);
+            const response = await axios.post('http://localhost:5000/submit-feedback', formData);
 
             const handleClearForm = () => {
                 setFormData({
@@ -455,9 +456,9 @@ const App = () => {
                 <div className="names">
                     <h2>Designed and Developed by</h2>
                     <div className='ourNames'>
-                        <h5>Anurag Solanki </h5>
+                        {/*<h5>Anurag Solanki </h5>*/}
                         <h5>Abhishek Mishra</h5>
-                        <h5> Jayesh karma</h5>
+                        {/*<h5> Jayesh karma</h5>*/}
                     </div>
                 </div>
             </footer>
