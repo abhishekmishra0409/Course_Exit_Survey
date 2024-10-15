@@ -3,6 +3,7 @@ import axios from 'axios';
 import './AllFeedback.css';
 import { Link } from 'react-router-dom';
 import ReactApexChart from 'react-apexcharts';
+import {base_Url} from "../BaseUrl";
 let newRatingsCount = { questionCounts: {} };
 
 const AllFeedback = () => {
@@ -42,7 +43,7 @@ const AllFeedback = () => {
         const fetchData = async () => {
             try {
                 // const response = await axios.get('http://172.16.89.96:5000/get-all-feedback');
-                const response = await axios.get('http://localhost:5000/get-all-feedback');
+                const response = await axios.get(`${base_Url}/get-all-feedback`);
 
                 setAllFeedback(response.data);
 

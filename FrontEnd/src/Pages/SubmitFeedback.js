@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from "react-router-dom";
 import './Submit.css'
+import {base_Url} from "../BaseUrl";
+
 
 
 const App = () => {
@@ -98,7 +100,7 @@ const App = () => {
 
         try {
             // const response = await axios.post('http://172.16.89.96:5000/submit-feedback', formData);
-            const response = await axios.post('http://localhost:5000/submit-feedback', formData);
+            const response = await axios.post(`${base_Url}/submit-feedback`, formData);
 
             const handleClearForm = () => {
                 setFormData({
